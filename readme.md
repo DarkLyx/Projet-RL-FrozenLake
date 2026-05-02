@@ -50,6 +50,7 @@ Avant de lancer l'entraînement, vous pouvez configurer l'expérience très simp
 - **`AGENT`** : Algorithme à entraîner  
   - `"Q-Learning"`  
   - `"DQN"`
+  - `"MaskablePPO"`
 
 - **`N_RUNS`** : Nombre d'exécutions indépendantes pour moyenner les résultats
 
@@ -57,7 +58,7 @@ Avant de lancer l'entraînement, vous pouvez configurer l'expérience très simp
 
 ### 2. Hyperparamètres
 
-Les hyperparamètres sont situés dans `main.py` via les dictionnaires `Q_PARAMS` et `DQN_PARAMS`.
+Les hyperparamètres sont situés dans `main.py` via les dictionnaires `Q_PARAMS`, `DQN_PARAMS` ou `MASKABLE_PPO_PARAMS`.
 
 Vous pouvez notamment ajuster :
 - le taux d'apprentissage
