@@ -21,7 +21,18 @@ def simulate_agent(env, model, agent_name, num_episodes=3):
                 action, _ = model.predict(state, deterministic=True)
                 if isinstance(action, np.ndarray):
                     action = action.item()
-                    
+            
+            elif agent_name == "MaskablePPO":
+                    if hasattr(env, 'action_masks'):
+                        action_masks = env.action_masks()
+                    else:
+                        from src.masking import FrozenLakeMaskWrapper
+                        action_masks = FrozenLakeMaskWrapper(env).action_masks(state=state)
+                        
+                    action, _ = model.predict(state, action_masks=action_masks, deterministic=True)
+                    if isinstance(action, np.ndarray):
+                        action = action.item()
+                        
             state, reward, terminated, truncated, _ = env.step(action)
             done = terminated or truncated
             time.sleep(0.1) 

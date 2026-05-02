@@ -40,6 +40,16 @@ def display_policy(env, model, agent_name, case_name):
                     action, _ = model.predict(state, deterministic=True)
                     if isinstance(action, np.ndarray):
                         action = action.item()
+                elif agent_name == "MaskablePPO":
+                    if hasattr(env, 'action_masks'):
+                        action_masks = env.action_masks(state=state)
+                    else:
+                        from src.masking import FrozenLakeMaskWrapper
+                        action_masks = FrozenLakeMaskWrapper(env).action_masks(state=state)
+                        
+                    action, _ = model.predict(state, action_masks=action_masks, deterministic=True)
+                    if isinstance(action, np.ndarray):
+                        action = action.item()
                 
                 arrow = action_mapping[action]
                 ax.text(c, r, arrow, va='center', ha='center', 
